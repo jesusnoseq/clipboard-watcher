@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.DataFormat;
 
 import java.io.File;
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,12 +28,23 @@ import java.util.Set;
 /**
  * @author Yuhi Ishikura
  */
-public class Clipboard {
-
+public class Clipboard implements Serializable{
+  private static final long serialVersionUID = 1L;
   private final javafx.scene.input.Clipboard clipboard;
+  private static Integer IdCounter=0;
+  private final Integer id;
 
-  Clipboard(javafx.scene.input.Clipboard clipboard) {
+  @SuppressWarnings("restriction")
+  protected Clipboard(javafx.scene.input.Clipboard clipboard) {
     this.clipboard = clipboard;
+
+    id=IdCounter;
+    
+    IdCounter++;
+  }
+  
+  public javafx.scene.input.Clipboard getClipboard() {
+	  return clipboard;
   }
 
   public Set<DataFormat> getContentTypes() {
@@ -175,6 +187,5 @@ public class Clipboard {
   public void setImage(Image image) {
     set(DataFormat.IMAGE, image);
   }
-
 
 }
